@@ -35,6 +35,7 @@ public class PostFreeFood extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_post_free_food);
         eventName =(EditText)findViewById(R.id.ff_name);
