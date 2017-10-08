@@ -13,6 +13,7 @@ public class PlacesActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_places);
         place1 =(Button) findViewById(R.id.button);
         place2 =(Button)findViewById(R.id.button2);

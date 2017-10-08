@@ -30,6 +30,7 @@ public class FilterListActivity extends AppCompatActivity implements CompoundBut
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_filter_list);
         list=(ListView)findViewById(R.id.list);
         openNowFlag = (CheckBox) findViewById(R.id.open_now_y_n);

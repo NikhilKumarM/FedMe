@@ -1,6 +1,7 @@
 package com.hackumbc.fedme.fedme;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +12,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ImageView img1,img2,img3;
     Button find,post;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         img1 = (ImageView)findViewById(R.id.imageView);
         img2 = (ImageView)findViewById(R.id.imageView2);
         img3 = (ImageView)findViewById(R.id.imageView3);

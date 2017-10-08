@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/background"
+    android:alpha="1"
     tools:context="com.hackumbc.fedme.fedme.MainActivity">
 
 <LinearLayout
@@ -12,35 +13,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    android:weightSum="1"
-    android:layout_marginLeft="40dp"
-    android:layout_marginStart="40dp"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_marginTop="13dp"
+    android:weightSum="2"
+    android:gravity="center"
     android:id="@+id/linearLayout2">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="300dp"
-        android:layout_height="150dp"
-
-        app:srcCompat="@drawable/first_1" />
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/p11" />
 
     <ImageView
         android:id="@+id/imageView2"
+        android:weightSum="1"
         android:layout_width="300dp"
         android:layout_height="150dp"
 
-        app:srcCompat="@drawable/first_2" />
+        app:srcCompat="@drawable/p12" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="300dp"
         android:layout_height="150dp"
 
-        app:srcCompat="@drawable/first_3"
+        app:srcCompat="@drawable/p13"
 
         />
 

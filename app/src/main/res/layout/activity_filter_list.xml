@@ -3,6 +3,8 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+android:background="@drawable/background1"
+android:alpha="1"
 tools:context="com.hackumbc.fedme.fedme.FilterListActivity" >
 <LinearLayout
     android:layout_width="match_parent"
@@ -14,7 +16,12 @@ tools:context="com.hackumbc.fedme.fedme.FilterListActivity" >
         android:id="@+id/open_now_y_n"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Open Now" />
+        android:fontFamily="sans-serif-condensed"
+        android:text="Open Now"
+        android:textAlignment="viewStart"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/list"

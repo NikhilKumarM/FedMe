@@ -60,14 +60,20 @@ public class CustomAdaptor extends ArrayAdapter<Item> {
         holder.placeName.setText(itemList.get(position).getPlace_name());
         holder.cost.setText(String.valueOf(itemList.get(position).getCost()));
         holder.place_location.setText(itemList.get(position).getPlaceLocation());
-        holder.wd_start.setText(itemList.get(position).getName());
-        holder.wd_end.setText(itemList.get(position).getName());
-        holder.we_start.setText(itemList.get(position).getName());
-        holder.we_end.setText(itemList.get(position).getName());
+        String [] s = itemList.get(position).getWeekdayStart().split(":");
+        holder.wd_start.setText(s[0]+":"+s[1]);
+        s = itemList.get(position).getWeekdayEnd().split(":");
+        holder.wd_end.setText(s[0]+":"+s[1]);
+        s = itemList.get(position).getWeekendStart().split(":");
+        holder.we_start.setText(s[0]+":"+s[1]);
+        s = itemList.get(position).getWeekendEnd().split(":");
+        holder.we_end.setText(s[0]+":"+s[1]);
 
         return view;
 
     }
+
+
     static class ViewHolder
     {
         TextView itemName, placeName, cost, place_location, wd_start, wd_end, we_start, we_end;

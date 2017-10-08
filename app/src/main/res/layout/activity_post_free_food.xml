@@ -5,6 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:background="@drawable/background1"
+    android:alpha="1"
     tools:context="com.hackumbc.fedme.fedme.PostFreeFood">
     <ScrollView
         android:layout_width="wrap_content"
@@ -34,6 +36,7 @@
 
             <TimePicker
                 android:id="@+id/ff_start"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -41,12 +44,11 @@
                 android:id="@+id/ff_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/button4"
+            <ImageView
+                android:id="@+id/post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="POST"
-                />
+                app:srcCompat="@drawable/post"/>
         </LinearLayout>
     </ScrollView>
 

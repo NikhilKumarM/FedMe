@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -30,23 +31,24 @@ public class PostFreeFood extends AppCompatActivity implements View.OnClickListe
 
     EditText eventName,location;
     TimePicker startTime, endTime;
-    Button post;
+    ImageView post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_post_free_food);
         eventName =(EditText)findViewById(R.id.ff_name);
         location =(EditText)findViewById(R.id.ff_location);
         startTime =(TimePicker)findViewById(R.id.ff_start);
         endTime = (TimePicker) findViewById(R.id.ff_end);
-        post =(Button)findViewById(R.id.button4);
+        post =(ImageView)findViewById(R.id.post);
         post.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.button4:
+            case R.id.post:
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                 String dateStr = dateFormat.format(new Date().getTime());
 
