@@ -22,73 +22,56 @@ import java.util.ArrayList;
  * Created by Nikhil Kumar Mengani on 10/7/2017.
  */
 
-public class CustomAdaptor extends ArrayAdapter<String> {
+public class CustomAdaptor extends ArrayAdapter<Item> {
 
-    ArrayList<String> dishIDArray ;
-    ArrayList<String> dishNameArray;
-    ArrayList<String> dishPlaceArray;
-    ArrayList<String> dishCostArray;
-    ArrayList<String> dishRatingsArray;
+    ArrayList<Item> itemList;
 
     private final Activity context;
-    // private final String[] itemname;
-    //private final Integer[] imgid;
 
-    public CustomAdaptor(Activity context,  ArrayList<String> dishIDArray,ArrayList<String> dishNameArray,  ArrayList<String> dishPlaceArray,
-                         ArrayList<String> dishCostArray) {
-        super(context, R.layout.list_items_layout, dishIDArray);
-        // TODO Auto-generated constructor stub
+    public CustomAdaptor(Activity context,  ArrayList<Item> itemArrayList) {
+        super(context, R.layout.list_items_layout, itemArrayList);
 
         this.context=context;
-        this.dishIDArray=dishIDArray;
-        this.dishNameArray= dishNameArray;
-        this.dishPlaceArray= dishPlaceArray;
-        this.dishCostArray = dishCostArray;
-        //this.dishRatingsArray=dishRatingsArray;
+        this.itemList = itemArrayList;
     }
 
+    @Override
     public View getView(int position, View view, ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.list_items_layout, null,true);
-        /*
+        LayoutInflater inflater=(LayoutInflater) context
+                .getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        ViewHolder holder;
+        if (view == null) {
+            holder = new ViewHolder();
+            view = inflater.inflate(R.layout.list_items_layout, parent, false);
+            holder.itemName = (TextView) view.findViewById(R.id.itemName);
+            holder.placeName = (TextView) view.findViewById(R.id.placeName);
+            holder.cost = (TextView) view.findViewById(R.id.cost);
+            holder.place_location = (TextView) view.findViewById(R.id.place_loc);
+            holder.wd_start = (TextView) view.findViewById(R.id.wd_start);
+            holder.wd_end = (TextView) view.findViewById(R.id.wd_end);
+            holder.we_start = (TextView) view.findViewById(R.id.we_start);
+            holder.we_end = (TextView) view.findViewById(R.id.we_end);
 
-        TextView txtTitle1 = (TextView) rowView.findViewById(R.id.Itemname1);
-        TextView txtTitle2= (TextView) rowView.findViewById(R.id.Itemname2);
-        TextView txtTitle3 = (TextView) rowView.findViewById(R.id.Itemname3);
-        TextView txtTitle4 = (TextView) rowView.findViewById(R.id.Itemname4);
-        TextView txtTitle5 = (TextView) rowView.findViewById(R.id.Itemname5);
-        TextView txtTitle6 = (TextView) rowView.findViewById(R.id.Itemname6);
-        // TextView txtTitle7 = (TextView) rowView.findViewById(R.id.Itemname7);
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder)view.getTag();
+        }
+        holder.itemName.setText(itemList.get(position).getName());
+        holder.placeName.setText(itemList.get(position).getPlace_name());
+        holder.cost.setText(String.valueOf(itemList.get(position).getCost()));
+        holder.place_location.setText(itemList.get(position).getPlaceLocation());
+        holder.wd_start.setText(itemList.get(position).getName());
+        holder.wd_end.setText(itemList.get(position).getName());
+        holder.we_start.setText(itemList.get(position).getName());
+        holder.we_end.setText(itemList.get(position).getName());
 
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-
-//        txtTitle1.setText(prettyFormatting("Food Name")  +foodnameArray.get(position));
-//        txtTitle2.setText(prettyFormatting("Review")     +reviewArray.get(position));
-//        txtTitle3.setText(prettyFormatting("Quality")    +foodqualityArray.get(position));
-//        txtTitle4.setText(prettyFormatting("Price")      +foodPriceArray.get(position));
-//        txtTitle5.setText(prettyFormatting("Service(10)")+foodserviceArray.get(position));
-//        txtTitle6.setText(prettyFormatting("Rating(10)") +foodratingArray.get(position));
-        //txtTitle1.setText(resIdArray.get(position));
-        txtTitle1.setText(foodnameArray.get(position));
-        txtTitle2.setText(reviewArray.get(position));
-        txtTitle3.setText(foodqualityArray.get(position));
-        txtTitle4.setText(foodPriceArray.get(position));
-        txtTitle5.setText(foodserviceArray.get(position));
-        txtTitle6.setText(foodratingArray.get(position));
-        */
-        TextView itemname = (TextView) rowView.findViewById(R.id.itemName);
-        TextView placename =(TextView) rowView.findViewById(R.id.placeName);
-        //RatingBar ratingBar =(RatingBar)rowView.findViewById(R.id.ratingBar);
-        TextView cost = (TextView)rowView.findViewById(R.id.cost);
-
-        itemname.setText(dishNameArray.get(position));
-        placename.setText(dishPlaceArray.get(position));
-        //ratingBar.setNumStars(Integer.parseInt(dishRatingsArray.get(position)));
-        cost.setText(dishCostArray.get(position));
-        return rowView;
+        return view;
 
     }
-
+    static class ViewHolder
+    {
+        TextView itemName, placeName, cost, place_location, wd_start, wd_end, we_start, we_end;
+    }
 
 
 }

@@ -16,29 +16,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+
 public class FreeFoodActivity extends AppCompatActivity {
 
-
     ListView list;
-    ArrayList<String> dishIDArray = new ArrayList<String>();
-    ArrayList<String> dishNameArray= new ArrayList<String>();;
-    ArrayList<String> dishPlaceArray= new ArrayList<String>();;
-    ArrayList<String> dishCostArray= new ArrayList<String>();;
+    ArrayList<Event> eventList = new ArrayList<Event>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_free_food);
-
+        list=(ListView)findViewById(R.id.list);
+        new FreeFoodActivity.InvokeWeService().execute();
     }
+
+
     void callAdaptor()
     {
-        CustomAdaptor adapter=new CustomAdaptor(this, dishIDArray,dishNameArray,dishPlaceArray,dishCostArray);
-        list=(ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);
 
 
     }
+
 
 
     public class InvokeWeService extends AsyncTask<String,Integer,String>
@@ -47,13 +45,9 @@ public class FreeFoodActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             URL url;
             String response = "";
-            String requestUrl = "http://ec2-54-213-169-9.us-west-2.compute.amazonaws.com/getfreefood.php";
-            StringBuilder str = new StringBuilder();
-            StringBuilder result = new StringBuilder();
-            //str.append("test=" + "parameter&");
+            String requestUrl = "http://ec2-54-213-169-9.us-west-2.compute.amazonaws.com/list_ff.php";
 
-            String mystring = str.toString();
-            requestUrl = requestUrl +mystring;
+            StringBuilder result = new StringBuilder();
             try {
                 url = new URL(requestUrl);
                 HttpURLConnection myconnection = (HttpURLConnection) url.openConnection();
@@ -63,18 +57,14 @@ public class FreeFoodActivity extends AppCompatActivity {
                 myconnection.setDoInput(true);
                 myconnection.setDoOutput(true);
 
-                if (200 == HttpURLConnection.HTTP_OK) ;
+                if (myconnection.getResponseCode() == HttpURLConnection.HTTP_OK)
                 {
-
-
                     InputStream in = url.openStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
                     String line;
                     while((line = reader.readLine()) != null) {
                         result.append(line);
                     }
-
                 }
 
             } catch (Exception e) {
@@ -93,45 +83,38 @@ public class FreeFoodActivity extends AppCompatActivity {
             JSONArray jsonArray = null;
             try {
                 jsonArray = new JSONArray(s);
-
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject innerJsonObject = jsonArray.getJSONObject(i);
-                    String dishID = innerJsonObject.getString("eventid");
-                    String dishName = innerJsonObject.getString("eventname");
-                    String place = innerJsonObject.getString("location");
-                    String cost = innerJsonObject.getString("time");
+                    Event event = new Event(
+                            innerJsonObject.getInt("ff_id"),
+                            innerJsonObject.getString("name"),
+                            innerJsonObject.getString("location"),
+                            innerJsonObject.getString("start_time"),
+                            innerJsonObject.getString("end_time"),
+                            innerJsonObject.getString("up_count")
+                            );
 
-                    dishIDArray.add(dishID);
-                    dishNameArray.add(dishName);
-                    dishCostArray.add(cost);
-                    dishPlaceArray.add(place);
+                    eventList.add(event);
 
-//                    switch (i) {
-//                        case 0:
-//                            addingElementsToArray(dishIDArray, innerJsonArray);
-//                            break;
-//                        case 1:
-//                            addingElementsToArray(dishNameArray, innerJsonArray);
-//                            break;
-//                        case 2:
-//                            addingElementsToArray(dishPlaceArray, innerJsonArray);
-//                            break;
-//                        case 3:
-//                            addingElementsToArray(dishCostArray, innerJsonArray);
-//                            break;
-//                        case 4:
-//                            addingElementsToArray(dishRatingsArray, innerJsonArray);
-//
-//                    }
-                    // String
-                    // urls.add(image_comment);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
-
-            callAdaptor();
-
+            }   
+            CustomEventAdaptor adapter=new CustomEventAdaptor(FreeFoodActivity.this, eventList);
+            list.setAdapter(adapter);
         }
     }
+
+    void addingElementsToArray(ArrayList<String> al,JSONArray jsonArray){
+        for(int i=0;i<jsonArray.length();i++){
+            try {
+                al.add(jsonArray.getString(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
 }

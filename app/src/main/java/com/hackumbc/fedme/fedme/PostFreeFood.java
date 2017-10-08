@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -18,18 +19,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class PostFreeFood extends AppCompatActivity implements View.OnClickListener {
 
-    EditText eventName,location,time;
+    EditText eventName,location;
+    TimePicker startTime, endTime;
     Button post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_free_food);
-        eventName =(EditText)findViewById(R.id.editText);
-        location =(EditText)findViewById(R.id.editText2);
-        time =(EditText)findViewById(R.id.editText3);
+        eventName =(EditText)findViewById(R.id.ff_name);
+        location =(EditText)findViewById(R.id.ff_location);
+        startTime =(TimePicker)findViewById(R.id.ff_start);
+        endTime = (TimePicker) findViewById(R.id.ff_end);
         post =(Button)findViewById(R.id.button4);
         post.setOnClickListener(this);
     }
@@ -38,8 +47,15 @@ public class PostFreeFood extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.button4:
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                String dateStr = dateFormat.format(new Date().getTime());
 
-                new PostFreeFood.InvokeWeService().execute(eventName.getText().toString(),location.getText().toString(),time.getText().toString());
+                new PostFreeFood.InvokeWeService().execute(
+                        eventName.getText().toString(),
+                        location.getText().toString(),
+                        dateStr+"%20"+startTime.getHour()+":"+startTime.getMinute()+":00",
+                        dateStr+"%20"+endTime.getHour()+":"+endTime.getMinute()+":00"
+                );
                 Toast.makeText(getApplicationContext(), "Succesfully Posted",
                         Toast.LENGTH_LONG).show();
                 Intent reverse = new Intent(this,MainActivity.class);
@@ -53,11 +69,10 @@ public class PostFreeFood extends AppCompatActivity implements View.OnClickListe
         protected String doInBackground(String... strings) {
             URL url;
             String response = "";
-            String requestUrl = "http://ec2-54-213-169-9.us-west-2.compute.amazonaws.com/postfreefood.php";
+            String requestUrl = "http://ec2-54-213-169-9.us-west-2.compute.amazonaws.com/post_ff.php";
             StringBuilder str = new StringBuilder();
             StringBuilder result = new StringBuilder();
-            //str.append("test=" + "parameter&");
-            str.append("?eventname="+strings[0]+"&location=" + strings[1]+"&time="+strings[2]);
+            str.append("?name="+strings[0]+"&location=" + strings[1]+"&start_time="+strings[2]+"&end_time="+strings[3]);
             String mystring = str.toString();
             requestUrl = requestUrl +mystring;
             try {
@@ -68,40 +83,18 @@ public class PostFreeFood extends AppCompatActivity implements View.OnClickListe
                 myconnection.setRequestMethod("GET");
                 myconnection.setDoInput(true);
                 myconnection.setDoOutput(true);
-
-                if (200 == HttpURLConnection.HTTP_OK) ;
-                {
-
-
-                    InputStream in = url.openStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                    String line;
-                    while((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-
-                }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return result.toString();
+            return "nikhil";
 
 
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-
-
+        protected void onPostExecute(String v) {
+            super.onPostExecute(v);
                 }
-
-
-
-
         }
 
 }

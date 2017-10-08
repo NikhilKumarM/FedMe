@@ -10,13 +10,12 @@ tools:context="com.hackumbc.fedme.fedme.FilterListActivity" >
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:textAlignment="center"
+    <CheckBox
+        android:id="@+id/open_now_y_n"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:textSize="40sp"
-        android:paddingBottom="20dp"
-        android:id="@+id/items" />
+        android:layout_height="wrap_content"
+        android:text="Open Now" />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"

@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -18,34 +20,39 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class FilterListActivity extends AppCompatActivity {
+
+public class FilterListActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     ListView list;
-    ArrayList<String> dishIDArray = new ArrayList<String>();
-    ArrayList<String> dishNameArray= new ArrayList<String>();;
-    ArrayList<String> dishPlaceArray= new ArrayList<String>();;
-    ArrayList<String> dishCostArray= new ArrayList<String>();;
-    ArrayList<String> dishRatingsArray= new ArrayList<String>();;
-
+    ArrayList<Item> itemList = new ArrayList<Item>();
+    CheckBox openNowFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_list);
-        Intent fromOptionsIntent= (Intent)getIntent();
-        String tag = fromOptionsIntent.getStringExtra("tag");
-        String ID = fromOptionsIntent.getStringExtra("option");
-        //Log.v("m",ID);
-        new FilterListActivity.InvokeWeService().execute(tag,ID);
+        list=(ListView)findViewById(R.id.list);
+        openNowFlag = (CheckBox) findViewById(R.id.open_now_y_n);
+        openNowFlag.setChecked(true);
+        String open_flag = "Y";
+        new FilterListActivity.InvokeWeService().execute(open_flag);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        openNowFlag.setOnCheckedChangeListener(this);
     }
 
     void callAdaptor()
     {
-        CustomAdaptor adapter=new CustomAdaptor(this, dishIDArray,dishNameArray,dishPlaceArray,dishCostArray);
-        list=(ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);
 
 
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        new FilterListActivity.InvokeWeService().execute(isChecked ? "Y" : "N");
     }
 
     public class InvokeWeService extends AsyncTask<String,Integer,String>
@@ -54,11 +61,11 @@ public class FilterListActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             URL url;
             String response = "";
-            String requestUrl = "http://ec2-54-213-169-9.us-west-2.compute.amazonaws.com/get_by_option.php";
+            String requestUrl = "http://ec2-54-213-169-9.us-west-2.compute.amazonaws.com/list_all.php";
             StringBuilder str = new StringBuilder();
             StringBuilder result = new StringBuilder();
             //str.append("test=" + "parameter&");
-            str.append("?tag="+strings[0]+"&option=" + strings[1]);
+            str.append("?open_flag="+strings[0]);
             String mystring = str.toString();
             requestUrl = requestUrl +mystring;
             try {
@@ -70,18 +77,14 @@ public class FilterListActivity extends AppCompatActivity {
                 myconnection.setDoInput(true);
                 myconnection.setDoOutput(true);
 
-                if (200 == HttpURLConnection.HTTP_OK) ;
+                if (200 == HttpURLConnection.HTTP_OK)
                 {
-
-
                     InputStream in = url.openStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
                     String line;
                     while((line = reader.readLine()) != null) {
                         result.append(line);
                     }
-
                 }
 
             } catch (Exception e) {
@@ -100,46 +103,26 @@ public class FilterListActivity extends AppCompatActivity {
             JSONArray jsonArray = null;
             try {
                 jsonArray = new JSONArray(s);
-
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject innerJsonObject = jsonArray.getJSONObject(i);
-                    String dishID = innerJsonObject.getString("item_id");
-                    String dishName = innerJsonObject.getString("item_name");
-                    String place = innerJsonObject.getString("place");
-                    String cost = innerJsonObject.getString("cost");
-                    String rating = innerJsonObject.getString("rating");
-                    dishIDArray.add(dishID);
-                    dishNameArray.add(dishName);
-                    dishCostArray.add(cost);
-                    dishPlaceArray.add(place);
-                    dishRatingsArray.add(rating);
+                    Item item = new Item(innerJsonObject.getInt("item_id"),
+                    innerJsonObject.getString("name"),
+                    innerJsonObject.getString("place_name"),
+                    innerJsonObject.getDouble("cost"),
+                    innerJsonObject.getString("place_location"),
+                    innerJsonObject.getString("wd_start"),
+                    innerJsonObject.getString("wd_end"),
+                    innerJsonObject.getString("we_start"),
+                    innerJsonObject.getString("we_end"));
 
-//                    switch (i) {
-//                        case 0:
-//                            addingElementsToArray(dishIDArray, innerJsonArray);
-//                            break;
-//                        case 1:
-//                            addingElementsToArray(dishNameArray, innerJsonArray);
-//                            break;
-//                        case 2:
-//                            addingElementsToArray(dishPlaceArray, innerJsonArray);
-//                            break;
-//                        case 3:
-//                            addingElementsToArray(dishCostArray, innerJsonArray);
-//                            break;
-//                        case 4:
-//                            addingElementsToArray(dishRatingsArray, innerJsonArray);
-//
-//                    }
-                    // String
-                    // urls.add(image_comment);
+                    itemList.add(item);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            callAdaptor();
-
+            CustomAdaptor adapter=new CustomAdaptor(FilterListActivity.this, itemList);
+            list.setAdapter(adapter);
         }
     }
 
