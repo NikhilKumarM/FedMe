@@ -35,7 +35,7 @@ public class CustomAdaptor extends ArrayAdapter<String> {
     //private final Integer[] imgid;
 
     public CustomAdaptor(Activity context,  ArrayList<String> dishIDArray,ArrayList<String> dishNameArray,  ArrayList<String> dishPlaceArray,
-                         ArrayList<String> dishCostArray, ArrayList<String> dishRatingsArray) {
+                         ArrayList<String> dishCostArray) {
         super(context, R.layout.list_items_layout, dishIDArray);
         // TODO Auto-generated constructor stub
 
@@ -44,7 +44,7 @@ public class CustomAdaptor extends ArrayAdapter<String> {
         this.dishNameArray= dishNameArray;
         this.dishPlaceArray= dishPlaceArray;
         this.dishCostArray = dishCostArray;
-        this.dishRatingsArray=dishRatingsArray;
+        //this.dishRatingsArray=dishRatingsArray;
     }
 
     public View getView(int position, View view, ViewGroup parent) {
@@ -78,12 +78,12 @@ public class CustomAdaptor extends ArrayAdapter<String> {
         */
         TextView itemname = (TextView) rowView.findViewById(R.id.itemName);
         TextView placename =(TextView) rowView.findViewById(R.id.placeName);
-        RatingBar ratingBar =(RatingBar)rowView.findViewById(R.id.ratingBar);
+        //RatingBar ratingBar =(RatingBar)rowView.findViewById(R.id.ratingBar);
         TextView cost = (TextView)rowView.findViewById(R.id.cost);
 
         itemname.setText(dishNameArray.get(position));
         placename.setText(dishPlaceArray.get(position));
-        ratingBar.setNumStars(Integer.parseInt(dishRatingsArray.get(position)));
+        //ratingBar.setNumStars(Integer.parseInt(dishRatingsArray.get(position)));
         cost.setText(dishCostArray.get(position));
         return rowView;
 

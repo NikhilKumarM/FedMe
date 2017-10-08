@@ -33,15 +33,15 @@ public class FilterListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_list);
         Intent fromOptionsIntent= (Intent)getIntent();
+        String tag = fromOptionsIntent.getStringExtra("tag");
         String ID = fromOptionsIntent.getStringExtra("option");
         //Log.v("m",ID);
-        new FilterListActivity.InvokeWeService().execute(ID);
+        new FilterListActivity.InvokeWeService().execute(tag,ID);
     }
 
     void callAdaptor()
     {
-        CustomAdaptor adapter=new CustomAdaptor(this, dishIDArray,dishNameArray,dishPlaceArray,dishCostArray,
-                dishRatingsArray);
+        CustomAdaptor adapter=new CustomAdaptor(this, dishIDArray,dishNameArray,dishPlaceArray,dishCostArray);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 
@@ -58,7 +58,7 @@ public class FilterListActivity extends AppCompatActivity {
             StringBuilder str = new StringBuilder();
             StringBuilder result = new StringBuilder();
             //str.append("test=" + "parameter&");
-            str.append("?option=" + strings[0]);
+            str.append("?tag="+strings[0]+"&option=" + strings[1]);
             String mystring = str.toString();
             requestUrl = requestUrl +mystring;
             try {
