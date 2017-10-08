@@ -66,8 +66,12 @@ public class CustomEventAdaptor extends ArrayAdapter<Event> implements View.OnCl
         }
         holder.eventName.setText(EventList.get(position).getName());
         holder.Location.setText(EventList.get(position).getLocation());
-        holder.startTime.setText(String.valueOf(EventList.get(position).getStartTime()));
-        holder.endTime.setText(EventList.get(position).getEndTime());
+        String [] s = String.valueOf(EventList.get(position).getStartTime()).split(" ");
+        String [] s1 = s[1].split(":");
+        holder.startTime.setText(s1[0]+":"+s1[1]);
+        s = String.valueOf(EventList.get(position).getEndTime()).split(" ");
+        s1 = s[1].split(":");
+        holder.endTime.setText(s1[0]+":"+s1[1]);
         holder.upVotes.setText(EventList.get(position).getUpCount());
         holder.likeButton.setTag(EventList.get(position).getId());
 

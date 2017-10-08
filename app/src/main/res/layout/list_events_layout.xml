@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp">
 
     <TextView
         android:id="@+id/eventName"
@@ -19,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="  "
-        android:textSize="8sp" />
+        android:textSize="4sp" />
 
     <TextView
         android:id="@+id/Location"
@@ -52,17 +54,13 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textSize="14sp" />
-    </LinearLayout>
     <TextView
         android:id="@+id/emptyline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="  "
+        android:text=", "
         android:textSize="12sp" />
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <TextView
             android:id="@+id/endTime_hard"
@@ -84,6 +82,7 @@
         android:layout_height="wrap_content"
         android:text="  "
         android:textSize="8sp" />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="horizontal" android:layout_width="match_parent"
@@ -98,7 +97,7 @@
             android:id="@+id/spaces"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="   " />
+            android:text=" " />
         <TextView
             android:id="@+id/upCount"
             android:layout_width="wrap_content"
